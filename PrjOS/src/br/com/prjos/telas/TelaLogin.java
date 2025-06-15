@@ -1,4 +1,26 @@
-
+/*
+ * The MIT License
+ *
+ * Copyright 2025 Joao Pedro A E Santo.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package br.com.prjos.telas;
 
 import java.sql.*;
@@ -6,27 +28,34 @@ import br.com.prjos.dal.ModuloConexao;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
+/**
+ * Tela Login
+ *
+ * @author Joao Pedro A E Santo
+ *
+ */
 public class TelaLogin extends javax.swing.JFrame {
+
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-    
+
     //Método para acessar o sistemas, verificando a existência de um Usuário
-    public void logar(){
+    public void logar() {
         String sql = "select* from tbusuario where login = ? and senha = ?";
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1,txtUsuario.getText());
+            pst.setString(1, txtUsuario.getText());
             String captura = new String(txtSenha.getPassword());
-            pst.setString(2,captura);
-            
+            pst.setString(2, captura);
+
             rs = pst.executeQuery();
             // se existir usuário e ler perfil
-            if(rs.next()){
+            if (rs.next()) {
                 String perfil = rs.getString(6);
                 System.out.println(perfil);
-                
-                if(perfil.equals("admin")){
+
+                if (perfil.equals("admin")) {
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
                     TelaPrincipal.menRel.setEnabled(true);
@@ -34,30 +63,28 @@ public class TelaLogin extends javax.swing.JFrame {
                     TelaPrincipal.lblUsuario.setText(rs.getString(2));
                     TelaPrincipal.lblUsuario.setForeground(Color.red);
                     this.dispose();
-                }else{
+                } else {
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
                     TelaPrincipal.lblUsuario.setText(rs.getString(2));
                     this.dispose();
                     conexao.close();
                 }
-            }else{
-                JOptionPane.showMessageDialog(null,"Usuário e/ou Senha inválido(s)");
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuário e/ou Senha inválido(s)");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,e);
+            JOptionPane.showMessageDialog(null, e);
         }
     }
-    
 
     public TelaLogin() {
         initComponents();
         conexao = ModuloConexao.conector();
         //condição para mostrar na tela de forma de imagem a conexão com o Banco
-        if(conexao != null){
+        if (conexao != null) {
             LblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/prjos/icones/Dbok.png")));
-        }
-        else{
+        } else {
             LblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/prjos/icones/Dberror.png")));
         }
     }
@@ -137,7 +164,6 @@ public class TelaLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         logar();
     }//GEN-LAST:event_btnLoginActionPerformed
-
 
     public static void main(String args[]) {
 

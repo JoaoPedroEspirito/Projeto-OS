@@ -1,6 +1,25 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
+ * The MIT License
+ *
+ * Copyright 2025 Joao Pedro A E Santo.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package br.com.prjos.telas;
 
@@ -15,8 +34,10 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
+ * Tela Ordem de Serviço
  *
- * @author jpara
+ * @author Joao Pedro A E Santo
+ *
  */
 public class TelaOs extends javax.swing.JInternalFrame {
 
@@ -78,8 +99,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
                 int adicionado = pst.executeUpdate();
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "OS emitida com sucesso!");
-                    
-                    
+
                     recuperarOS();
                     btnAdicionar.setEnabled(false);
                     btnConsultar.setEnabled(false);
@@ -206,8 +226,8 @@ public class TelaOs extends javax.swing.JInternalFrame {
             try {
                 //usabndo a classe HashMap para criar um filtro
                 HashMap filtro = new HashMap();
-                filtro.put("os",Integer.parseInt(txtOs.getText()));
-                
+                filtro.put("os", Integer.parseInt(txtOs.getText()));
+
                 //usando a classe jasper, para impressão de um relatório
                 JasperPrint print = JasperFillManager.fillReport("C:/report/OS.jasper", filtro, conexao);
 
@@ -219,15 +239,15 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
         }
     }
-    
+
     //recuperar OS
-    private void recuperarOS(){
+    private void recuperarOS() {
         String sql = "select max(os) from tbos ";
         try {
-            pst=conexao.prepareStatement(sql);
+            pst = conexao.prepareStatement(sql);
             rs = pst.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 txtOs.setText(rs.getString(1));
             }
         } catch (Exception e) {
